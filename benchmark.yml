@@ -1,0 +1,12 @@
+---
+
+concurrency: 125
+base: 'http://127.0.0.1:8080'
+iterations: 30000
+rampup: 2
+
+plan:
+
+  - name: Fetch api
+    request:
+      url: /duo/stats/SnipeyDev
