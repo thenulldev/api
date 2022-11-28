@@ -9,7 +9,7 @@ pub struct User {
     learning_language_string: String,
     created: String,
     admin: bool,
-    email: String,
+    email: Option<String>,
     invite_url: String,
     fullname: String,
     avatar: String,
