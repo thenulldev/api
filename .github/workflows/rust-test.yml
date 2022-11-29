@@ -26,7 +26,7 @@ jobs:
       - name: List
         run: find ./
       - name: Run tests
-        run: cargo test --verbose
+        run: cargo build --verbose
 
   build:
     strategy:
