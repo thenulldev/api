@@ -1,8 +1,8 @@
 use envconfig::Envconfig;
 use log::info;
-use redis::{aio::ConnectionManager, AsyncCommands, Client};
+use redis::{aio::ConnectionManager, Client};
 extern crate serde_json;
-use crate::{config::Config, modules::duolingo::User};
+use crate::config::Config;
 
 #[derive(Clone)]
 pub struct RedisManager {
@@ -16,36 +16,5 @@ impl RedisManager {
         let cm = ConnectionManager::new(client).await.unwrap();
         info!("Connected to Redis");
         Self { cm }
-    }
-
-    pub async fn check_duo_stats(&mut self, name: &str) -> bool {
-        let res: bool = self.cm.exists(format!("duo:stats:{}", name)).await.unwrap();
-        return res;
-    }
-
-    pub async fn get_duo_stats(&mut self, name: &str) -> User {
-        let current = redis::cmd("GET")
-            .arg(format!("duo:stats:{}", name))
-            .query_async::<ConnectionManager, String>(&mut self.cm)
-            .await
-            .unwrap();
-
-        let json: User = serde_json::from_str(&current).unwrap();
-
-        return json;
-    }
-
-    pub async fn store_duo_stats(&mut self, name: &String, data: &User) {
-        let json = serde_json::to_string(data).unwrap();
-
-        redis::cmd("SET")
-            .arg(format!("duo:stats:{}", name))
-            .arg(json)
-            .arg("EX")
-            // TODO Figure out better TTL
-            .arg(3000)
-            .query_async::<ConnectionManager, String>(&mut self.cm)
-            .await
-            .unwrap();
     }
 }
