@@ -34,7 +34,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build the hello-docker Docker image
+      - name: Build the null-api Docker image
         run: |
             docker build . --tag ghcr.io/thenulldev/api:latest
             docker run ghcr.io/thenulldev/api:latest
