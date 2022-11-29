@@ -165,7 +165,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@SnipeyDev](https://twitter.com/SnipeyDev) - stephen@thenull.dev
+Stephen Freerking - [@SnipeyDev](https://twitter.com/SnipeyDev) - stephen@thenull.dev
 
 Project Link: [https://github.com/thenulldev/api](https://github.com/thenulldev/api)
 
