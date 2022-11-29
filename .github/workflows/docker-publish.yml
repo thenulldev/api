@@ -21,21 +21,19 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
 
-
 jobs:
-  build:
-    runs-on: self-hosted
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      # Login against a Docker registry except on PR
-      # https://github.com/docker/login-action
-      # - name: Log into registry ${{ env.REGISTRY }}
-      #   if: github.event_name != 'pull_request'
-      #   uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-      #   with:
-      #     registry: ${{ env.REGISTRY }}
-      #     username: ${{ github.actor }}
-      #     password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build
-        run: docker build -t ghcr.io/${{ github.repository }}:${{ github.sha }} -t ghcr.io/${{ github.repository }}:latest .
+  publish-hello-docker-image:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v2
+    - name: Login to GitHub Container Registry
+  uses: docker/login-action@v1
+    with:
+      registry: ghcr.io
+      username: ${{ github.actor }}
+      password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build the hello-docker Docker image
+ run: |
+       docker build . --tag ghcr.io/thenulldev/api:latest
+       docker run ghcr.io/thenulldev/api:latest
+       docker push ghcr.io/thenulldev/api:latest
