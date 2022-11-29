@@ -37,10 +37,5 @@ jobs:
       #     registry: ${{ env.REGISTRY }}
       #     username: ${{ github.actor }}
       #     password: ${{ secrets.GITHUB_TOKEN }}
-
-
       - name: Build
-        run: |-
-          docker build \
-            -t ghcr.io/${{ github.repository }}:${{ github.sha }} \
-            -t ghcr.io/${{ github.repository }}:latest \
+        run: docker build -t ghcr.io/${{ github.repository }}:${{ github.sha }} -t ghcr.io/${{ github.repository }}:latest
