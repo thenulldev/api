@@ -9,7 +9,7 @@ pub mod modules;
 // Main Application Loop
 #[rustfmt::skip]
 #[tokio::main]
-async fn main(){
+async fn main() {
     dotenv().ok();
     // Init Logger
     std::env::set_var("RUST_LOG", "info");

@@ -71,7 +71,6 @@ impl SpotifyManager {
                 200 => {
                     info!("Playing");
                     if length > &empty {
-                        // let body: Root = serde_json::from_str(&res.text().await.unwrap()).unwrap();
                         redis::cmd("SET")
                             .arg("spotify:now_playing")
                             .arg(&res.text().await.unwrap())
@@ -91,8 +90,6 @@ impl SpotifyManager {
                     info!("AUTH TOKEN NOT VALID");
                     // TODO Renew token
                     let token = Self::refresh_access_token(redis).await.unwrap();
-
-                    println!("Access  Token: {:?}", token.access_token);
 
                     redis::cmd("SET")
                         .arg("spotify:access_token")
@@ -118,8 +115,6 @@ impl SpotifyManager {
     ) -> Result<TokenResponse, reqwest::Error> {
         let config = Config::init_from_env().unwrap();
         let token: String = redis.cm.get("spotify:refresh_token").await.unwrap();
-
-        // let refresh_token = redis.cm.get("spotify:refresh_token").await.unwrap();
         let params = [
             ("grant_type", "refresh_token"),
             ("refresh_token", token.as_str()),

@@ -1,6 +1,6 @@
 use actix_web::{get, http::Error, web, HttpResponse};
 use envconfig::Envconfig;
-use redis::{aio::ConnectionManager, AsyncCommands};
+use redis::aio::ConnectionManager;
 use serde_json::json;
 use tokio::sync::Mutex;
 
@@ -24,7 +24,6 @@ async fn current(data: web::Data<Mutex<NullClient>>) -> Result<HttpResponse, Err
         .await
         .unwrap();
     let playing: Root = serde_json::from_str(&current).unwrap();
-    // TODO Get current song playing
     Ok(HttpResponse::Ok()
         .insert_header(("Content-Type", "application/json"))
         .body(json!({"success": true, "data": playing}).to_string()))

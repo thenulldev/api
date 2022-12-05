@@ -26,6 +26,9 @@ pub struct Config {
     #[envconfig(from = "SPOTIFY_CLIENT_SECRET")]
     pub spotify_client_secret: String,
 
+    #[envconfig(from = "GITHUB_SECRET")]
+    pub github_secret: String,
+
     #[envconfig(
         from = "SPOTIFY_REDIRECT_URI",
         default = "http://127.0.0.1:8080/v1/spotify/callback"

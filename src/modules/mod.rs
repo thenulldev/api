@@ -1,4 +1,5 @@
 pub mod duolingo;
+pub mod github;
 pub mod spotify;
 
 use actix_web::{get, http::Error, HttpResponse};
