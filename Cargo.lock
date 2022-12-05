@@ -1247,6 +1247,7 @@ name = "null-api"
 version = "0.1.0"
 dependencies = [
  "actix-web",
+ "dotenvy",
  "env_logger",
  "envconfig",
  "log",

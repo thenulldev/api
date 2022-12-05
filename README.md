@@ -63,6 +63,7 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#benchmark">Benchmark</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -117,7 +118,21 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    cargo run
    ```
+## Benchmark
 
+
+
+1. Install [Drill](https://github.com/fcsonline/drill) benchmarking suite
+   ```sh
+   cargo install drill
+   ```
+2. Run the API
+   ```sh
+   cargo run
+3. Open a new terminal and run the benchmark
+   ```sh
+   drill --benchmark benchmark.yml --stats
+   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
