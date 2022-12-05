@@ -9,6 +9,7 @@ use crate::{
     modules::{
         default,
         duolingo::handler::get_duo_user,
+        github::handler::{repos, runners},
         health, index,
         spotify::handler::{authorize, callback, current},
     },
@@ -57,5 +58,7 @@ impl NullClient {
         cfg.service(index);
         cfg.service(health);
         cfg.service(current);
+        cfg.service(runners);
+        cfg.service(repos);
     }
 }
