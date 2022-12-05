@@ -10,7 +10,7 @@ use crate::{
         default,
         duolingo::handler::get_duo_user,
         health, index,
-        spotify::handler::{authorize, callback},
+        spotify::handler::{authorize, callback, current},
     },
 };
 
@@ -56,5 +56,6 @@ impl NullClient {
         cfg.service(callback);
         cfg.service(index);
         cfg.service(health);
+        cfg.service(current);
     }
 }

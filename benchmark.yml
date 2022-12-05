@@ -1,12 +1,19 @@
 ---
-
 concurrency: 125
 base: 'http://127.0.0.1:8080'
 iterations: 30000
 rampup: 2
 
 plan:
+  # - name: Fetch api
+  #   request:
+  #     url: /v1/spotify/stats/
 
-  - name: Fetch api
+  - name: One request with a random item
     request:
-      url: /duo/stats/SnipeyDev
+      url: /v1/duo/stats/{{ item }}
+    with_items:
+      - SnipeyDev
+      - StephLee1995
+    shuffle: true
+    pick: 1

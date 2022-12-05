@@ -1,5 +1,6 @@
 use actix_web::{get, http::Error, web, HttpResponse};
 use envconfig::Envconfig;
+use redis::{aio::ConnectionManager, AsyncCommands};
 use serde_json::json;
 use tokio::sync::Mutex;
 
@@ -7,7 +8,7 @@ use crate::{
     client::NullClient,
     config::Config,
     modules::spotify::{
-        entity::{AuthData, AuthQuery, SpotifyToken, TokenError},
+        entity::{AuthData, AuthQuery, Root, SpotifyToken, TokenError},
         SpotifyManager,
     },
 };
@@ -15,29 +16,41 @@ use crate::{
 #[get("/v1/spotify")]
 async fn current(data: web::Data<Mutex<NullClient>>) -> Result<HttpResponse, Error> {
     let data = data.lock().await;
-    let _redis = &mut data.redis.clone();
-
-    // let current = SpotifyManager::get_spotify_current().await;
-
+    let redis = &mut data.redis.clone();
+    SpotifyManager::get_spotify_current(redis).await;
+    let current = redis::cmd("GET")
+        .arg("spotify:now_playing")
+        .query_async::<ConnectionManager, String>(&mut redis.cm)
+        .await
+        .unwrap();
+    let playing: Root = serde_json::from_str(&current).unwrap();
+    // TODO Get current song playing
     Ok(HttpResponse::Ok()
         .insert_header(("Content-Type", "application/json"))
-        .body(json!({"success": true, "data": "TEST"}).to_string()))
+        .body(json!({"success": true, "data": playing}).to_string()))
 }
 
 #[get("/v1/spotify/auth")]
 async fn authorize(data: web::Data<Mutex<NullClient>>) -> Result<HttpResponse, Error> {
     let data = data.lock().await;
-    let _redis = &mut data.redis.clone();
-    //TODO Check if user has already been authorized
-    let config = Config::init_from_env().unwrap();
+    let redis = &mut data.redis.clone();
 
-    let scope = "user-read-playback-state+user-read-currently-playing";
-    let redirect_uri = "http://127.0.0.1:8080/v1/spotify/callback";
-    let url = format!("https://accounts.spotify.com/authorize?client_id={}&response_type=code&scope={}&redirect_uri={}", config.spotify_client_id, scope, redirect_uri);
-    let json = json!({ "url": url });
-    Ok(HttpResponse::Ok()
-        .append_header(("Content-type", "application/json"))
-        .json(json))
+    if !SpotifyManager::check_spotify_access(redis).await {
+        let config = Config::init_from_env().unwrap();
+
+        let scope = "user-read-playback-state+user-read-currently-playing";
+        let redirect_uri = "http://127.0.0.1:8080/v1/spotify/callback";
+        let url = format!("https://accounts.spotify.com/authorize?client_id={}&response_type=code&scope={}&redirect_uri={}", config.spotify_client_id, scope, redirect_uri);
+        let json = json!({ "info": "Click the URL to authorize the app", "url": url });
+        Ok(HttpResponse::Ok()
+            .append_header(("Content-type", "application/json"))
+            .json(json))
+    } else {
+        let json = json!({ "error": "Application already authorized!" });
+        Ok(HttpResponse::Ok()
+            .append_header(("Content-type", "application/json"))
+            .json(json))
+    }
 }
 
 #[get("/v1/spotify/callback")]
