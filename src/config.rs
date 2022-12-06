@@ -17,16 +17,16 @@ pub struct Config {
     #[envconfig(from = "REDIS_URL", default = "redis://127.0.0.1:6379")]
     pub redis: String,
 
-    #[envconfig(from = "DUO_API")]
+    #[envconfig(from = "DUO_API" default = "")]
     pub duo_api: String,
 
-    #[envconfig(from = "SPOTIFY_CLIENT_ID")]
+    #[envconfig(from = "SPOTIFY_CLIENT_ID", default = "")]
     pub spotify_client_id: String,
 
-    #[envconfig(from = "SPOTIFY_CLIENT_SECRET")]
+    #[envconfig(from = "SPOTIFY_CLIENT_SECRET", default = "")]
     pub spotify_client_secret: String,
 
-    #[envconfig(from = "GITHUB_SECRET")]
+    #[envconfig(from = "GITHUB_SECRET", default = "")]
     pub github_secret: String,
 
     #[envconfig(
