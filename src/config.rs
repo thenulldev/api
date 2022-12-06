@@ -17,7 +17,7 @@ pub struct Config {
     #[envconfig(from = "REDIS_URL", default = "redis://127.0.0.1:6379")]
     pub redis: String,
 
-    #[envconfig(from = "DUO_API" default = "")]
+    #[envconfig(from = "DUO_API", default = "1")]
     pub duo_api: String,
 
     #[envconfig(from = "SPOTIFY_CLIENT_ID", default = "")]
