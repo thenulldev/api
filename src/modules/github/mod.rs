@@ -11,7 +11,7 @@ pub mod handler;
 #[derive(Clone)]
 pub struct GithubManager;
 impl GithubManager {
-    pub async fn get_runners(redis: &mut RedisManager) -> Result<RunnerResponse, reqwest::Error> {
+    pub async fn get_runners(_redis: &mut RedisManager) -> Result<RunnerResponse, reqwest::Error> {
         let config = Config::init_from_env().unwrap();
 
         let res = reqwest::Client::new()
@@ -28,7 +28,7 @@ impl GithubManager {
         Ok(body)
     }
 
-    pub async fn get_repos(redis: &mut RedisManager) -> Result<RepoResponse, reqwest::Error> {
+    pub async fn get_repos(_redis: &mut RedisManager) -> Result<RepoResponse, reqwest::Error> {
         let config = Config::init_from_env().unwrap();
 
         let res = reqwest::Client::new()
