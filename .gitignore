@@ -3,3 +3,4 @@
 .cargo
 test.json
 .project
+docker-compose.yml

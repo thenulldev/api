@@ -52,13 +52,17 @@ impl NullClient {
 
     // Initialize Services
     pub fn init(cfg: &mut web::ServiceConfig) {
-        cfg.service(get_duo_user);
-        cfg.service(authorize);
-        cfg.service(callback);
+        // General
         cfg.service(index);
         cfg.service(health);
+        //Spotify
         cfg.service(current);
+        cfg.service(authorize);
+        cfg.service(callback);
+        // Github
         cfg.service(runners);
         cfg.service(repos);
+        //Duolingo
+        cfg.service(get_duo_user);
     }
 }
