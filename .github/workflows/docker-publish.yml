@@ -20,9 +20,17 @@ env:
 jobs:
   publish-null-api:
     runs-on: self-hosted
+    strategy:
+      matrix:
+        redis-version: [4, 5, 6]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Start Redis
+        uses: supercharge/redis-github-action@1.4.0
+        with:
+          redis-version: ${{ matrix.redis-version }}
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
