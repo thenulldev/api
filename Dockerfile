@@ -3,7 +3,7 @@
 #################
 ## build stage ##
 #################
-FROM rust:slim-bullseye AS builder
+FROM rust:latest AS builder
 WORKDIR /code
 
 # Download crates-io index and fetch dependency code.
@@ -23,10 +23,11 @@ RUN cargo build --release
 ###############
 ## run stage ##
 ###############
-FROM debian:bullseye
+FROM debian:latest
 WORKDIR /app
 
-RUN update-ca-certificates
+RUN apt update
+RUN apt install ca-certificates -y
 
 # copy server binary from build stage
 COPY --from=builder /code/target/release/null-api null-api
