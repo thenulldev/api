@@ -13,7 +13,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  publish-null-api:
+  build:
     runs-on: self-hosted
     steps:
       - name: Checkout repository
