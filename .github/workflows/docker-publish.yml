@@ -34,5 +34,4 @@ jobs:
       - name: Build the null-api Docker image
         run: |
             docker build . --tag ghcr.io/thenulldev/api:latest
-            docker run ghcr.io/thenulldev/api:latest
             docker push ghcr.io/thenulldev/api:latest

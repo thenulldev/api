@@ -29,16 +29,8 @@ WORKDIR /app
 # copy server binary from build stage
 COPY --from=builder /code/target/release/null-api null-api
 
-ENV DB_URL="postgresql://postgres:nulldb@localhost:5432/null-api"
-ENV REDIS_URL="redis://127.0.0.1:6379"
-ENV DUO_API="api"
-ENV WAKA_API="api"
-ENV SPOTIFY_CLIENT_ID="id"
-ENV SPOTIFY_CLIENT_SECRET="secret"
-ENV GITHUB_SECRET="pat"
-
 # set user to non-root unless root is required for your app
-#USER 1001
+USER 1001
 
 # indicate what port the server is running on
 EXPOSE 8080
