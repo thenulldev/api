@@ -26,6 +26,7 @@ RUN cargo build --release
 FROM debian:bullseye
 WORKDIR /app
 
+RUN apt update
 RUN apt install ca-certificates
 
 # copy server binary from build stage
