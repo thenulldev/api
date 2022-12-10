@@ -27,7 +27,7 @@ FROM debian:bullseye
 WORKDIR /app
 
 RUN apt update
-RUN apt install ca-certificates
+RUN apt install ca-certificates -y
 
 # copy server binary from build stage
 COPY --from=builder /code/target/release/null-api null-api
