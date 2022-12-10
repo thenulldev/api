@@ -34,6 +34,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Deploy
+
         uses: danielr1996/kubectl-action@1.0.0
         with:
           args: set image -n nulldev deployment/${{ env.DEPLOYMENT_ID }} ${{ env.DEPLOYMENT_ID }}=ghcr.io/${{ github.repository }}:${{ github.sha }}
