@@ -33,6 +33,11 @@ jobs:
     name: Deploy
     needs: build
     runs-on: self-hosted
+    env:
+      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+    environment: 
+      name: Live
+      url: https://torch.thenull.dev
     steps:
       - name: Deploy
         uses: actions-hub/kubectl@master
