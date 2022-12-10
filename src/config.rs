@@ -31,8 +31,7 @@ pub struct Config {
 
     #[envconfig(
         from = "SPOTIFY_REDIRECT_URI",
-        default = "https://127.0.0.1:8080/v1/spotify/callback"
+        default = "http://127.0.0.1:8080/v1/spotify/callback"
     )]
-
     pub spotify_redirect_uri: String,
 }

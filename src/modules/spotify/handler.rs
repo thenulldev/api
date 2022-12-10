@@ -62,7 +62,7 @@ async fn callback(
     let config = Config::init_from_env().unwrap();
 
     let code = &info.code;
-    let redirect_uri = "http://127.0.0.1:8080/v1/spotify/callback";
+    let redirect_uri = config.spotify_redirect_uri;
     let data = AuthData {
         code: code.into(),
         grant_type: "authorization_code".into(),
