@@ -38,7 +38,7 @@ async fn authorize(data: web::Data<Mutex<NullClient>>) -> Result<HttpResponse, E
         let config = Config::init_from_env().unwrap();
 
         let scope = "user-read-playback-state+user-read-currently-playing";
-        let redirect_uri = "http://127.0.0.1:8080/v1/spotify/callback";
+        let redirect_uri = config.spotify_redirect_uri;
         let url = format!("https://accounts.spotify.com/authorize?client_id={}&response_type=code&scope={}&redirect_uri={}", config.spotify_client_id, scope, redirect_uri);
         let json = json!({ "info": "Click the URL to authorize the app", "url": url });
         Ok(HttpResponse::Ok()

@@ -9,6 +9,7 @@ env:
 
 jobs:
   build:
+    name: Build
     runs-on: self-hosted
     steps:
       - name: Checkout repository
@@ -34,12 +35,11 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Deploy
-
-        uses: danielr1996/kubectl-action@1.0.0
+        uses: actions-hub/kubectl@master
         with:
           args: set image -n nulldev deployment/${{ env.DEPLOYMENT_ID }} ${{ env.DEPLOYMENT_ID }}=ghcr.io/${{ github.repository }}:${{ github.sha }}
 
       - name: Rollout
-        uses: danielr1996/kubectl-action@1.0.0
+        uses: actions-hub/kubectl@master
         with:
           args: rollout status -n nulldev deployment/${{ env.DEPLOYMENT_ID }}
