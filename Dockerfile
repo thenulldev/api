@@ -23,7 +23,7 @@ RUN cargo build --release
 ###############
 ## run stage ##
 ###############
-FROM debian:bullseye-slim
+FROM debian:bullseye
 WORKDIR /app
 
 # copy server binary from build stage
@@ -38,7 +38,7 @@ ENV SPOTIFY_CLIENT_SECRET="secret"
 ENV GITHUB_SECRET="pat"
 
 # set user to non-root unless root is required for your app
-USER 1001
+#USER 1001
 
 # indicate what port the server is running on
 EXPOSE 8080
