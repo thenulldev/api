@@ -17,5 +17,5 @@ async fn main() {
     env_logger::init();
 
     // Start Client
-    NullClient::start().await;
+    NullClient::start().await.unwrap();
 }
