@@ -3,7 +3,7 @@
 #################
 ## build stage ##
 #################
-FROM rust:slim-bullseye AS builder
+FROM rust:latest AS builder
 WORKDIR /code
 
 # Download crates-io index and fetch dependency code.
@@ -23,7 +23,7 @@ RUN cargo build --release
 ###############
 ## run stage ##
 ###############
-FROM debian:bullseye
+FROM debian:latest
 WORKDIR /app
 
 RUN apt update
