@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-extern crate serde_json;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct User {

@@ -55,6 +55,8 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+        <li><a href="#project-structure">Project Structure</a></li>
+        <li><a href="#recent-improvements">Recent Improvements</a></li>
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
@@ -77,16 +79,56 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This is a project to track stats on services I use
+This is a Rust-based API for collecting and tracking personal statistics from various services including Spotify, Duolingo, and GitHub. The API provides endpoints to retrieve real-time data and analytics for dashboard visualization.
+
+### Project Structure
+
+The API follows a clean modular architecture with each service having its own dedicated module:
+
+```
+src/modules/
+├── duolingo/
+│   ├── entity.rs    # Data structures for Duolingo API responses
+│   ├── handler.rs   # HTTP request handlers and endpoints
+│   ├── manager.rs   # Business logic and API interactions
+│   └── mod.rs       # Module exports and public API
+├── spotify/
+│   ├── entity.rs    # Data structures for Spotify API responses
+│   ├── handler.rs   # HTTP request handlers and endpoints
+│   ├── manager.rs   # Business logic and API interactions
+│   └── mod.rs       # Module exports and public API
+└── github/
+    ├── entity.rs    # Data structures for GitHub API responses
+    ├── handler.rs   # HTTP request handlers and endpoints
+    ├── manager.rs   # Business logic and API interactions
+    └── mod.rs       # Module exports and public API
+```
+
+Each module follows a consistent pattern:
+- **Entity**: Defines data structures and types for API responses
+- **Handler**: Contains HTTP route handlers and request/response logic
+- **Manager**: Implements business logic, API calls, and data management
+- **Mod**: Provides clean module exports and public API surface
+
+### Recent Improvements
+
+The project has been recently refactored to improve code organization and maintainability:
+
+- **Separated Manager Logic**: Manager implementations have been moved from `mod.rs` files into dedicated `manager.rs` files
+- **Cleaner Module Structure**: Each `mod.rs` now only contains module declarations and re-exports, making them much more readable
+- **Better Separation of Concerns**: Business logic is now clearly separated from module organization
+- **Improved Maintainability**: Each manager's implementation is now in its own focused file, making it easier to maintain and extend
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
 
-* Actix-Web
-* SQLx
-* Redis
-* Reqwest
+* **[Rust](https://www.rust-lang.org/)** - Systems programming language for performance and safety
+* **[Actix-Web](https://actix.rs/)** - High-performance web framework for Rust
+* **[SQLx](https://github.com/launchbadge/sqlx)** - Async SQL toolkit with compile-time checked queries
+* **[Redis](https://redis.io/)** - In-memory data structure store for caching
+* **[Reqwest](https://github.com/seanmonstar/reqwest)** - HTTP client library for making API requests
+* **[Serde](https://serde.rs/)** - Serialization framework for converting data structures
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -139,8 +181,34 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-This is mainly used to track my personal stats to display on a dashboard and for learning.
+This API is designed to collect and aggregate personal statistics from various services for dashboard visualization and analytics. Each module provides specific functionality:
 
+### Available Modules
+
+- **Duolingo Module**: Tracks language learning progress, streak data, and user statistics
+- **Spotify Module**: Retrieves currently playing tracks, user playlists, top artists/tracks, and listening analytics
+- **GitHub Module**: Monitors repository activity, GitHub Actions runners, and organization statistics
+
+### API Endpoints
+
+The API provides RESTful endpoints for each service module, allowing you to:
+- Retrieve real-time data from external APIs
+- Cache frequently accessed data using Redis
+- Aggregate statistics for dashboard visualization
+- Monitor service health and availability
+
+### Example Usage
+
+```bash
+# Get Spotify currently playing track
+GET /spotify/current
+
+# Get Duolingo user stats
+GET /duolingo/stats/{username}
+
+# Get GitHub runners status
+GET /github/runners
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -150,7 +218,10 @@ This is mainly used to track my personal stats to display on a dashboard and for
 - [x] Spotify Stats
 - [x] Duolingo Stats
 - [x] Github Stats
+- [x] Modular Architecture Refactoring
 - [ ] Waka Stats
+- [ ] Enhanced Error Handling
+- [ ] API Documentation with OpenAPI/Swagger
 
 See the [open issues](https://github.com/thenulldev/api/issues) for a full list of proposed features (and known issues).
 

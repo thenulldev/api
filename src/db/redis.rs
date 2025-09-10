@@ -1,20 +1,20 @@
 use envconfig::Envconfig;
 use log::info;
 use redis::{aio::ConnectionManager, Client};
-extern crate serde_json;
-use crate::config::Config;
+
+use crate::{config::Config, error::AppError};
 
 #[derive(Clone)]
 pub struct RedisManager {
-    pub cm: ConnectionManager,
+    pub connection: ConnectionManager,
 }
 
 impl RedisManager {
-    pub async fn new() -> Self {
-        let config = Config::init_from_env().unwrap();
-        let client = Client::open(config.redis).unwrap();
-        let cm = ConnectionManager::new(client).await.unwrap();
+    pub async fn new() -> Result<Self, AppError> {
+        let config = Config::init_from_env()?;
+        let client = Client::open(config.redis)?;
+        let connection = ConnectionManager::new(client).await?;
         info!("Connected to Redis");
-        Self { cm }
+        Ok(Self { connection })
     }
 }

@@ -1,9 +1,11 @@
 use client::NullClient;
 use dotenvy::dotenv;
+use log::error;
 // Import Modules
 pub mod client;
 pub mod config;
 pub mod db;
+pub mod error;
 pub mod modules;
 
 // Main Application Loop
@@ -17,5 +19,8 @@ async fn main() {
     env_logger::init();
 
     // Start Client
-    NullClient::start().await.unwrap();
+    if let Err(e) = NullClient::start().await {
+        error!("Failed to start server: {}", e);
+        std::process::exit(1);
+    }
 }

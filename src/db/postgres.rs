@@ -1,26 +1,23 @@
-// let conn = Database::connect(&db_url).await.unwrap();
-
 use envconfig::Envconfig;
 use log::info;
 use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
 
-use crate::config::Config;
+use crate::{config::Config, error::AppError};
 
 pub struct PostgresManager {
-    pub pm: Pool<Postgres>,
+    pub pool: Pool<Postgres>,
 }
 
 impl PostgresManager {
-    pub async fn new() -> Self {
-        let config = Config::init_from_env().unwrap();
+    pub async fn new() -> Result<Self, AppError> {
+        let config = Config::init_from_env()?;
 
         let pool = PgPoolOptions::new()
             .max_connections(5)
             .connect(&config.db_url)
-            .await
-            .unwrap();
+            .await?;
 
-        info!("Connected to Database");
-        Self { pm: pool }
+        info!("Connected to PostgreSQL database");
+        Ok(Self { pool })
     }
 }

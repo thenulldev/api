@@ -144,3 +144,85 @@ pub struct TokenResponse {
     pub expires_in: i64,
     pub scope: String,
 }
+
+// Enhanced real-time song information structures
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RealTimeSongInfo {
+    pub track: TrackInfo,
+    pub playback: PlaybackInfo,
+    pub device: Option<DeviceInfo>,
+    pub context: Option<ContextInfo>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct TrackInfo {
+    pub id: String,
+    pub name: String,
+    pub artists: Vec<Artist>,
+    pub album: Album,
+    pub duration_ms: i64,
+    pub explicit: bool,
+    pub popularity: i64,
+    pub preview_url: Option<String>,
+    pub external_urls: ExternalUrls,
+    pub images: Vec<Image>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PlaybackInfo {
+    pub is_playing: bool,
+    pub progress_ms: i64,
+    pub timestamp: i64,
+    pub currently_playing_type: String,
+    pub repeat_state: String,
+    pub shuffle_state: bool,
+    pub volume_percent: Option<i32>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct DeviceInfo {
+    pub id: String,
+    pub is_active: bool,
+    pub is_private_session: bool,
+    pub is_restricted: bool,
+    pub name: String,
+    pub device_type: String,
+    pub volume_percent: i32,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ContextInfo {
+    pub uri: String,
+    pub href: String,
+    pub external_urls: ExternalUrls,
+    pub context_type: String,
+}
+
+// Player state structure (read-only for dashboard)
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PlayerState {
+    pub device: Option<DeviceInfo>,
+    pub repeat_state: String,
+    pub shuffle_state: bool,
+    pub context: Option<ContextInfo>,
+    pub timestamp: i64,
+    pub progress_ms: i64,
+    pub is_playing: bool,
+    pub item: Option<Item>,
+    pub currently_playing_type: String,
+}
+
+// Queue management structures
+#[derive(Debug, Serialize, Deserialize)]
+pub struct QueueInfo {
+    pub currently_playing: Option<Item>,
+    pub queue: Vec<Item>,
+}
+
+// WebSocket real-time update structure
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RealTimeUpdate {
+    pub event_type: String,
+    pub timestamp: i64,
+    pub data: serde_json::Value,
+}
