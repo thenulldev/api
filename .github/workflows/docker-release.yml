@@ -10,7 +10,7 @@ env:
 jobs:
   build:
     name: Build
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -28,23 +28,3 @@ jobs:
             docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
             docker tag ghcr.io/${{ github.repository }}:${{ github.sha }} ghcr.io/${{ github.repository }}:latest
             docker push ghcr.io/thenulldev/api:latest
-
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: self-hosted
-    env:
-      KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
-    environment: 
-      name: Live
-      url: https://torch.thenull.dev
-    steps:
-      - name: Deploy
-        uses: actions-hub/kubectl@master
-        with:
-          args: set image -n nulldev deployment/${{ env.DEPLOYMENT_ID }} ${{ env.DEPLOYMENT_ID }}=ghcr.io/${{ github.repository }}:${{ github.sha }}
-
-      - name: Rollout
-        uses: actions-hub/kubectl@master
-        with:
-          args: rollout status -n nulldev deployment/${{ env.DEPLOYMENT_ID }}
